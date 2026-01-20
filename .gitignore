@@ -1,0 +1,25 @@
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PHP
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Configuración local (si quieres ignorar DB settings)
+# app/config/Database.php
+
+# Cache
+cache/
+*.cache
