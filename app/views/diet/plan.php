@@ -42,6 +42,11 @@
                         <?= $data['mealPlan']['breakfast']['totalCalories'] ?> kcal
                     </div>
                 </div>
+                
+                <div class="alert alert-info" style="margin: 15px 0; font-size: 14px;">
+                    💡 <strong>Ideas de desayuno:</strong> Avena con frutas • Huevos con tostadas • Yogurt con granola • Smoothie bowl
+                </div>
+
                 <ul class="food-list">
                     <?php foreach ($data['mealPlan']['breakfast']['foods'] as $food): ?>
                         <li class="food-item">
@@ -68,6 +73,11 @@
                         <?= $data['mealPlan']['lunch']['totalCalories'] ?> kcal
                     </div>
                 </div>
+
+                <div class="alert alert-info" style="margin: 15px 0; font-size: 14px;">
+                    💡 <strong>Ideas de almuerzo:</strong> Pollo con arroz • Pasta integral con vegetales • Lentejas • Carne con ensalada
+                </div>
+
                 <ul class="food-list">
                     <?php foreach ($data['mealPlan']['lunch']['foods'] as $food): ?>
                         <li class="food-item">
@@ -94,6 +104,11 @@
                         <?= $data['mealPlan']['dinner']['totalCalories'] ?> kcal
                     </div>
                 </div>
+
+                <div class="alert alert-info" style="margin: 15px 0; font-size: 14px;">
+                    💡 <strong>Ideas de cena:</strong> Salmón al horno • Ensalada con pollo • Vegetales asados • Sopa ligera
+                </div>
+
                 <ul class="food-list">
                     <?php foreach ($data['mealPlan']['dinner']['foods'] as $food): ?>
                         <li class="food-item">
@@ -120,6 +135,11 @@
                         <?= $data['mealPlan']['snack']['totalCalories'] ?> kcal
                     </div>
                 </div>
+
+                <div class="alert alert-info" style="margin: 15px 0; font-size: 14px;">
+                    💡 <strong>Ideas de merienda:</strong> Frutas frescas • Frutos secos • Yogurt • Vegetales con hummus
+                </div>
+
                 <ul class="food-list">
                     <?php foreach ($data['mealPlan']['snack']['foods'] as $food): ?>
                         <li class="food-item">

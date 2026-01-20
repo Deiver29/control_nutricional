@@ -123,6 +123,12 @@
                 <a href="index.php?controller=diet&action=generate" class="btn btn-primary">
                     📋 Ver Plan de Alimentación
                 </a>
+                <a href="index.php?controller=weight&action=add" class="btn btn-primary">
+                    ⚖️ Registrar Peso
+                </a>
+                <a href="index.php?controller=weight&action=history" class="btn btn-secondary">
+                    📊 Ver Mi Progreso
+                </a>
                 <a href="index.php?controller=user&action=onboarding" class="btn btn-secondary">
                     ✏️ Actualizar Mi Perfil
                 </a>
