@@ -396,10 +396,13 @@ body {
 }
 
 .food-item {
-    padding: 8px 0;
+    padding: 15px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: space-between;
+    transition: background 0.3s;
+}
+
+.food-item:hover {
+    background: rgba(46, 204, 113, 0.05);
 }
 
 .food-item:last-child {
@@ -408,6 +411,7 @@ body {
 
 .food-name {
     font-weight: 500;
+    color: var(--dark);
 }
 
 .food-amount {

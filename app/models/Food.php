@@ -51,45 +51,73 @@ class Food {
     public static function getRecommendedFoods($calorieTarget, $mealType = 'all') {
         $db = Database::connect();
         
-        // Categorías específicas según tipo de comida
-        $categoryFilters = [
-            'breakfast' => "AND (categoria LIKE '%Dairy%' OR categoria LIKE '%Cereal%' OR 
-                            categoria LIKE '%Fruits%' OR categoria LIKE '%Baked%' OR 
-                            categoria LIKE '%Egg%' OR nombre LIKE '%egg%' OR
-                            nombre LIKE '%bread%' OR nombre LIKE '%milk%' OR
-                            nombre LIKE '%yogurt%' OR nombre LIKE '%oat%')",
-            'lunch' => "AND (categoria LIKE '%Poultry%' OR categoria LIKE '%Beef%' OR 
-                        categoria LIKE '%Vegetables%' OR categoria LIKE '%Legumes%' OR
-                        categoria LIKE '%Pork%' OR nombre LIKE '%chicken%' OR
-                        nombre LIKE '%rice%' OR nombre LIKE '%bean%' OR
-                        nombre LIKE '%pasta%' OR nombre LIKE '%potato%')",
-            'dinner' => "AND (categoria LIKE '%Fish%' OR categoria LIKE '%Poultry%' OR 
-                         categoria LIKE '%Vegetables%' OR categoria LIKE '%Seafood%' OR
-                         nombre LIKE '%fish%' OR nombre LIKE '%salmon%' OR
-                         nombre LIKE '%tuna%' OR nombre LIKE '%vegetables%' OR
-                         nombre LIKE '%salad%')",
-            'snack' => "AND (categoria LIKE '%Fruits%' OR categoria LIKE '%Nuts%' OR 
-                        categoria LIKE '%Dairy%' OR categoria LIKE '%Snacks%' OR
-                        nombre LIKE '%fruit%' OR nombre LIKE '%nut%' OR
-                        nombre LIKE '%yogurt%' OR nombre LIKE '%cheese%')"
-        ];
+        // Rango de calorías por porción
+        $minCal = 20;
+        $maxCal = 400;
 
-        $categoryFilter = ($mealType !== 'all' && isset($categoryFilters[$mealType])) 
-            ? $categoryFilters[$mealType] 
-            : "";
+        // Semilla aleatoria
+        $randomSeed = time() + rand(1, 1000);
 
-        $minCal = $calorieTarget * 0.5;
-        $maxCal = $calorieTarget * 1.5;
+        // Primero intentar con filtros específicos
+        $categoryFilter = "";
+        
+        switch($mealType) {
+            case 'breakfast':
+                $categoryFilter = "AND (categoria LIKE '%Dairy%' OR categoria LIKE '%Cereal%' OR 
+                                  categoria LIKE '%Fruit%' OR categoria LIKE '%Baked%')";
+                break;
+            case 'lunch':
+                $categoryFilter = "AND (categoria LIKE '%Poultry%' OR categoria LIKE '%Beef%' OR 
+                                  categoria LIKE '%Vegetables%' OR categoria LIKE '%Legumes%')";
+                break;
+            case 'dinner':
+                $categoryFilter = "AND (categoria LIKE '%Fish%' OR categoria LIKE '%Poultry%' OR 
+                                  categoria LIKE '%Vegetables%' OR categoria LIKE '%Seafood%')";
+                break;
+            case 'snack':
+                $categoryFilter = "AND (categoria LIKE '%Fruit%' OR categoria LIKE '%Nut%' OR 
+                                  categoria LIKE '%Dairy%' OR categoria LIKE '%Snack%')";
+                break;
+        }
 
+        // Intentar con filtro específico
         $query = "SELECT * FROM alimentos 
                   WHERE energia_kcal BETWEEN ? AND ?
                   AND energia_kcal IS NOT NULL
+                  AND energia_kcal > 0
                   $categoryFilter
-                  ORDER BY RAND() LIMIT 30";
+                  ORDER BY RAND($randomSeed) 
+                  LIMIT 50";
 
         $stmt = $db->prepare($query);
         $stmt->execute([$minCal, $maxCal]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Si no hay resultados, buscar sin filtro de categoría
+        if (empty($results)) {
+            $query = "SELECT * FROM alimentos 
+                      WHERE energia_kcal BETWEEN ? AND ?
+                      AND energia_kcal IS NOT NULL
+                      AND energia_kcal > 0
+                      ORDER BY RAND($randomSeed) 
+                      LIMIT 50";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$minCal, $maxCal]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Si aún no hay resultados, buscar cualquier alimento
+        if (empty($results)) {
+            $query = "SELECT * FROM alimentos 
+                      WHERE energia_kcal > 0
+                      ORDER BY RAND($randomSeed) 
+                      LIMIT 50";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $results;
     }
 
     public static function getBreakfastRecommendations($calories) {

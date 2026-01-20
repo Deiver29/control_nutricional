@@ -47,20 +47,39 @@
                     💡 <strong>Ideas de desayuno:</strong> Avena con frutas • Huevos con tostadas • Yogurt con granola • Smoothie bowl
                 </div>
 
-                <ul class="food-list">
-                    <?php foreach ($data['mealPlan']['breakfast']['foods'] as $food): ?>
-                        <li class="food-item">
-                            <span class="food-name"><?= htmlspecialchars($food['name']) ?></span>
-                            <span class="food-amount">
-                                <?= $food['portion'] ?> 
-                                (<?= $food['calories'] ?> kcal | 
-                                P: <?= $food['protein'] ?>g | 
-                                C: <?= $food['carbs'] ?>g | 
-                                G: <?= $food['fats'] ?>g)
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if (!empty($data['mealPlan']['breakfast']['foods'])): ?>
+                    <ul class="food-list">
+                        <?php foreach ($data['mealPlan']['breakfast']['foods'] as $food): ?>
+                            <li class="food-item">
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="food-name" style="font-weight: 600;">
+                                            <?= htmlspecialchars($food['name']) ?>
+                                        </span>
+                                        <span style="color: var(--primary); font-weight: 700;">
+                                            <?= $food['calories'] ?> kcal
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--gray);">
+                                        Porción: <?= $food['portion'] ?> | 
+                                        Proteína: <?= $food['protein'] ?>g | 
+                                        Carbohidratos: <?= $food['carbs'] ?>g | 
+                                        Grasas: <?= $food['fats'] ?>g
+                                    </div>
+                                    <?php if (isset($food['name_original']) && $food['name'] !== $food['name_original']): ?>
+                                        <div style="font-size: 11px; color: #95a5a6; font-style: italic;">
+                                            (<?= htmlspecialchars($food['name_original']) ?>)
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p style="color: var(--gray); text-align: center; padding: 20px;">
+                        No se encontraron alimentos para este tipo de comida. Intenta generar un nuevo plan.
+                    </p>
+                <?php endif; ?>
             </div>
 
             <!-- Almuerzo -->
@@ -78,20 +97,39 @@
                     💡 <strong>Ideas de almuerzo:</strong> Pollo con arroz • Pasta integral con vegetales • Lentejas • Carne con ensalada
                 </div>
 
-                <ul class="food-list">
-                    <?php foreach ($data['mealPlan']['lunch']['foods'] as $food): ?>
-                        <li class="food-item">
-                            <span class="food-name"><?= htmlspecialchars($food['name']) ?></span>
-                            <span class="food-amount">
-                                <?= $food['portion'] ?> 
-                                (<?= $food['calories'] ?> kcal | 
-                                P: <?= $food['protein'] ?>g | 
-                                C: <?= $food['carbs'] ?>g | 
-                                G: <?= $food['fats'] ?>g)
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if (!empty($data['mealPlan']['lunch']['foods'])): ?>
+                    <ul class="food-list">
+                        <?php foreach ($data['mealPlan']['lunch']['foods'] as $food): ?>
+                            <li class="food-item">
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="food-name" style="font-weight: 600;">
+                                            <?= htmlspecialchars($food['name']) ?>
+                                        </span>
+                                        <span style="color: var(--primary); font-weight: 700;">
+                                            <?= $food['calories'] ?> kcal
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--gray);">
+                                        Porción: <?= $food['portion'] ?> | 
+                                        Proteína: <?= $food['protein'] ?>g | 
+                                        Carbohidratos: <?= $food['carbs'] ?>g | 
+                                        Grasas: <?= $food['fats'] ?>g
+                                    </div>
+                                    <?php if (isset($food['name_original']) && $food['name'] !== $food['name_original']): ?>
+                                        <div style="font-size: 11px; color: #95a5a6; font-style: italic;">
+                                            (<?= htmlspecialchars($food['name_original']) ?>)
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p style="color: var(--gray); text-align: center; padding: 20px;">
+                        No se encontraron alimentos para este tipo de comida. Intenta generar un nuevo plan.
+                    </p>
+                <?php endif; ?>
             </div>
 
             <!-- Cena -->
@@ -109,20 +147,39 @@
                     💡 <strong>Ideas de cena:</strong> Salmón al horno • Ensalada con pollo • Vegetales asados • Sopa ligera
                 </div>
 
-                <ul class="food-list">
-                    <?php foreach ($data['mealPlan']['dinner']['foods'] as $food): ?>
-                        <li class="food-item">
-                            <span class="food-name"><?= htmlspecialchars($food['name']) ?></span>
-                            <span class="food-amount">
-                                <?= $food['portion'] ?> 
-                                (<?= $food['calories'] ?> kcal | 
-                                P: <?= $food['protein'] ?>g | 
-                                C: <?= $food['carbs'] ?>g | 
-                                G: <?= $food['fats'] ?>g)
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if (!empty($data['mealPlan']['dinner']['foods'])): ?>
+                    <ul class="food-list">
+                        <?php foreach ($data['mealPlan']['dinner']['foods'] as $food): ?>
+                            <li class="food-item">
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="food-name" style="font-weight: 600;">
+                                            <?= htmlspecialchars($food['name']) ?>
+                                        </span>
+                                        <span style="color: var(--primary); font-weight: 700;">
+                                            <?= $food['calories'] ?> kcal
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--gray);">
+                                        Porción: <?= $food['portion'] ?> | 
+                                        Proteína: <?= $food['protein'] ?>g | 
+                                        Carbohidratos: <?= $food['carbs'] ?>g | 
+                                        Grasas: <?= $food['fats'] ?>g
+                                    </div>
+                                    <?php if (isset($food['name_original']) && $food['name'] !== $food['name_original']): ?>
+                                        <div style="font-size: 11px; color: #95a5a6; font-style: italic;">
+                                            (<?= htmlspecialchars($food['name_original']) ?>)
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p style="color: var(--gray); text-align: center; padding: 20px;">
+                        No se encontraron alimentos para este tipo de comida. Intenta generar un nuevo plan.
+                    </p>
+                <?php endif; ?>
             </div>
 
             <!-- Merienda -->
@@ -140,20 +197,39 @@
                     💡 <strong>Ideas de merienda:</strong> Frutas frescas • Frutos secos • Yogurt • Vegetales con hummus
                 </div>
 
-                <ul class="food-list">
-                    <?php foreach ($data['mealPlan']['snack']['foods'] as $food): ?>
-                        <li class="food-item">
-                            <span class="food-name"><?= htmlspecialchars($food['name']) ?></span>
-                            <span class="food-amount">
-                                <?= $food['portion'] ?> 
-                                (<?= $food['calories'] ?> kcal | 
-                                P: <?= $food['protein'] ?>g | 
-                                C: <?= $food['carbs'] ?>g | 
-                                G: <?= $food['fats'] ?>g)
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if (!empty($data['mealPlan']['snack']['foods'])): ?>
+                    <ul class="food-list">
+                        <?php foreach ($data['mealPlan']['snack']['foods'] as $food): ?>
+                            <li class="food-item">
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="food-name" style="font-weight: 600;">
+                                            <?= htmlspecialchars($food['name']) ?>
+                                        </span>
+                                        <span style="color: var(--primary); font-weight: 700;">
+                                            <?= $food['calories'] ?> kcal
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--gray);">
+                                        Porción: <?= $food['portion'] ?> | 
+                                        Proteína: <?= $food['protein'] ?>g | 
+                                        Carbohidratos: <?= $food['carbs'] ?>g | 
+                                        Grasas: <?= $food['fats'] ?>g
+                                    </div>
+                                    <?php if (isset($food['name_original']) && $food['name'] !== $food['name_original']): ?>
+                                        <div style="font-size: 11px; color: #95a5a6; font-style: italic;">
+                                            (<?= htmlspecialchars($food['name_original']) ?>)
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p style="color: var(--gray); text-align: center; padding: 20px;">
+                        No se encontraron alimentos para este tipo de comida. Intenta generar un nuevo plan.
+                    </p>
+                <?php endif; ?>
             </div>
 
             <div style="margin-top: 30px; text-align: center;">
