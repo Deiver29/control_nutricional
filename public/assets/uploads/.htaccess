@@ -1,0 +1,23 @@
+# Seguridad para carpeta de uploads
+# Permite solo imágenes
+
+# Deshabilitar ejecución de PHP
+php_flag engine off
+
+# Permitir solo tipos de archivos de imagen
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Denegar todo lo demás
+<FilesMatch "^.*$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Permitir .htaccess
+<Files ".htaccess">
+    Order Allow,Deny
+    Allow from all
+</Files>

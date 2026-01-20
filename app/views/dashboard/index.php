@@ -16,10 +16,35 @@
             🥗 Control Nutricional
         </div>
         <div class="navbar-user">
-            <span>Hola, <strong><?= htmlspecialchars($data['user']['name']) ?></strong></span>
-            <a href="index.php?controller=auth&action=logout" class="btn btn-secondary">
-                Cerrar Sesión
-            </a>
+            <div class="user-dropdown">
+                <button class="user-menu-btn" id="userMenuBtn">
+                    <span>👤 <?= htmlspecialchars($data['user']['name']) ?></span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu" id="userDropdown">
+                    <div class="dropdown-header">
+                        <strong><?= htmlspecialchars($data['user']['name']) ?></strong>
+                        <small><?= htmlspecialchars($data['user']['email']) ?></small>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.php?controller=diet&action=generate" class="dropdown-item">
+                        📋 Ver Plan de Alimentación
+                    </a>
+                    <a href="index.php?controller=weight&action=add" class="dropdown-item">
+                        ⚖️ Registrar Peso
+                    </a>
+                    <a href="index.php?controller=weight&action=history" class="dropdown-item">
+                        📊 Ver Mi Progreso
+                    </a>
+                    <a href="index.php?controller=user&action=onboarding" class="dropdown-item">
+                        ✏️ Actualizar Mi Perfil
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.php?controller=auth&action=logout" class="dropdown-item logout">
+                        🚪 Cerrar Sesión
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -93,6 +118,91 @@
 
         </div>
 
+        <!-- Consejo del Día (Simulación IA) -->
+        <?php if (isset($data['consejo']) && $data['consejo']): ?>
+        <div class="diet-section">
+            <h2>💡 Consejo Inteligente del Día</h2>
+            
+            <div class="card consejo-card" style="border-left: 4px solid var(--primary); background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                <div style="display: flex; align-items: start; gap: 15px;">
+                    <div style="font-size: 32px;">
+                        <?php 
+                        $iconos = [
+                            'ejercicio' => '🏃‍♂️',
+                            'nutricion' => '🥗',
+                            'motivacion' => '💪'
+                        ];
+                        echo $iconos[$data['consejo']['tipo']] ?? '💡';
+                        ?>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                            <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase;">
+                                <?= htmlspecialchars($data['consejo']['tipo']) ?>
+                            </span>
+                            <span style="background: rgba(0,0,0,0.1); color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px;">
+                                <?php 
+                                $objetivos = ['bajar' => 'Bajar', 'subir' => 'Subir', 'mantener' => 'Mantener'];
+                                echo $objetivos[$data['consejo']['objetivo']] ?? '';
+                                ?>
+                            </span>
+                        </div>
+                        <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #2c3e50;">
+                            <?= htmlspecialchars($data['consejo']['mensaje']) ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; text-align: right;">
+                <button onclick="location.reload()" class="btn btn-secondary" style="font-size: 14px;">
+                    🔄 Ver Otro Consejo
+                </button>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- Consejos Variados (Opcional) -->
+        <?php if (isset($data['consejosVariados']) && !empty(array_filter($data['consejosVariados']))): ?>
+        <div class="diet-section">
+            <h2>📚 Más Consejos Para Ti</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                
+                <?php if (isset($data['consejosVariados']['ejercicio']) && $data['consejosVariados']['ejercicio']): ?>
+                <div class="card" style="border-top: 3px solid #3498db;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">🏃‍♂️</div>
+                    <h4 style="color: #3498db; margin-bottom: 10px;">Ejercicio</h4>
+                    <p style="font-size: 14px; line-height: 1.5; color: #555;">
+                        <?= htmlspecialchars($data['consejosVariados']['ejercicio']['mensaje']) ?>
+                    </p>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (isset($data['consejosVariados']['nutricion']) && $data['consejosVariados']['nutricion']): ?>
+                <div class="card" style="border-top: 3px solid #2ecc71;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">🥗</div>
+                    <h4 style="color: #2ecc71; margin-bottom: 10px;">Nutrición</h4>
+                    <p style="font-size: 14px; line-height: 1.5; color: #555;">
+                        <?= htmlspecialchars($data['consejosVariados']['nutricion']['mensaje']) ?>
+                    </p>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (isset($data['consejosVariados']['motivacion']) && $data['consejosVariados']['motivacion']): ?>
+                <div class="card" style="border-top: 3px solid #e74c3c;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">💪</div>
+                    <h4 style="color: #e74c3c; margin-bottom: 10px;">Motivación</h4>
+                    <p style="font-size: 14px; line-height: 1.5; color: #555;">
+                        <?= htmlspecialchars($data['consejosVariados']['motivacion']['mensaje']) ?>
+                    </p>
+                </div>
+                <?php endif; ?>
+                
+            </div>
+        </div>
+        <?php endif; ?>
+
         <!-- Recomendaciones -->
         <div class="diet-section">
             <h2>💡 Recomendaciones Personalizadas</h2>
@@ -118,25 +228,30 @@
                     Te recomendamos un plan de alimentación con déficit calórico moderado y actividad física regular.
                 </div>
             <?php endif; ?>
-
-            <div style="margin-top: 30px;">
-                <a href="index.php?controller=diet&action=generate" class="btn btn-primary">
-                    📋 Ver Plan de Alimentación
-                </a>
-                <a href="index.php?controller=weight&action=add" class="btn btn-primary">
-                    ⚖️ Registrar Peso
-                </a>
-                <a href="index.php?controller=weight&action=history" class="btn btn-secondary">
-                    📊 Ver Mi Progreso
-                </a>
-                <a href="index.php?controller=user&action=onboarding" class="btn btn-secondary">
-                    ✏️ Actualizar Mi Perfil
-                </a>
-            </div>
         </div>
 
     </div>
 
     <script src="assets/js/app.js"></script>
+    <script>
+        // Manejo del menú desplegable
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+
+        userMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        // Cerrar al hacer clic fuera
+        document.addEventListener('click', function() {
+            userDropdown.classList.remove('show');
+        });
+
+        // Prevenir cierre al hacer clic dentro del dropdown
+        userDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    </script>
 </body>
 </html>
